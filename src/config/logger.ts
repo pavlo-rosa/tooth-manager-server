@@ -34,8 +34,19 @@ class LoggerService {
         this.logger.log('debug', message);
     }
 
-    async error(message: string) {
-        this.logger.log('error', message);
+    // async error(message: string) {
+    //     this.logger.log('error', message);
+    // }
+
+    async error(message: string, obj: any) {
+        if (obj) {
+            this.logger.log('error', message, {
+                obj
+            })
+        } else {
+            this.logger.log('error', message);
+        }
+
     }
 }
 
