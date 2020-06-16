@@ -1,16 +1,31 @@
-// lib/app.ts
-import env from 'dotenv';
 import LoggerService from './config/logger'
 import express from 'express';
-const sequelize = require('./models/index');
-env.config();
+import morgan from 'morgan';
+import cors from 'cors';
+import bodyParser from "body-parser";
+
+import routesIndex from './routes/index';
+
 const logger = new LoggerService('./app.ts');
-sequelize.init();
+
+
 // Create a new express application instance
-const app: express.Application = express();
-app.get('/', function (req, res) {
-    res.send('Hello World!');
-});
-app.listen(process.env.PORT, function () {
-    logger.info(`Example app listening on port ${process.env.PORT}!`);
-});
+let app: express.Application = express();
+
+app.use(
+    morgan('tiny', {
+        stream: {
+            write: (str) => {
+                logger.info(str);
+            },
+        },
+    }),
+);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
+app.use('/', routesIndex);
+
+
+export = app

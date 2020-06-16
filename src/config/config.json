@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "thmin",
+    "password": null,
+    "database": "teethdb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "thmin",
+    "password": null,
+    "database": "teethdb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "thmin",
+    "password": null,
+    "database": "teethdb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

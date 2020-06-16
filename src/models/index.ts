@@ -4,15 +4,36 @@ import LoggerService from '../config/logger';
 const logger = new LoggerService('./models/index.ts');
 const fs = require('fs');
 const path = require('path');
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize').Sequelize;
 const basename = path.basename(__filename);
-const config = require('../config/config.js');
+// const config = require('../config/config.json');
 const db: any = {};
 
 let sequelize: any;
-sequelize = new Sequelize(config.dbName, config.dbUser, config.dbPass, {
-    host: config.dbHost,
-    dialect: 'postgres'
+sequelize = new Sequelize('teethdb', 'thmin', null, {
+    host: '127.0.0.1',
+    dialect: 'postgres',
+
+    pool: {
+        max: 20,
+        min: 0,
+        acquire: 30000,
+        idle: 30000,
+    },
+    logging: (msg: string) => logger.debug(msg),
+    define: {
+        // underscored: true,      //change attributes name to snake_case
+        // freezeTableName: false, //pluralize table names
+        charset: 'utf8',
+        dialectOptions: {
+            collate: 'utf8_general_ci',
+        },
+        // timestamps: false, //automatically adds the fields createdAt and updatedAt
+    },
+    dialectOptions: {
+        useUTC: true, //for reading from database
+    },
+    timezone: 'utc',
 });
 
 
@@ -39,14 +60,15 @@ function init() {
     sequelize
         .authenticate()
         .then(() => {
-            logger.info('Connection has been established successfully.').then();
+            logger.info('Connection has been established successfully.');
         })
         .catch((err: any) => {
-            logger.error('Unable to connect to the database:', err).then();
+            logger.error('Unable to connect to the database:', err);
         });
 }
 
-module.exports = {
+export {
     db,
-    init
+    init,
+    sequelize
 };

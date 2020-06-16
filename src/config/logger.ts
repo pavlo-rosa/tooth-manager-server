@@ -6,6 +6,7 @@ class LoggerService {
 
     constructor(route: string) {
         this.logger = createLogger({
+            level: 'debug',
             format: format.combine(
                 format(info => {
                     info.level = info.level.toUpperCase();
@@ -19,26 +20,34 @@ class LoggerService {
                     const {timestamp, level, message, ...args} = info;
 
                     const ts = timestamp.slice(0, 19).replace('T', ' ');
-                    return `${ts} ${route.blue} [${level}]:${message}\n${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
+                    return `${ts} ${route}`.grey + ` [${level}]:${message}${Object.keys(args).length ? JSON.stringify(args, null, 2) : ''}`;
                 })
             ),
             transports: [new transports.Console()]
         });
     }
 
-    async info(message: string) {
-        this.logger.log('info', message);
+    info(message: string, obj: any = null) {
+        if (obj) {
+            this.logger.log('info', message, {
+                obj
+            })
+        } else {
+            this.logger.log('info', message);
+        }
     }
 
-    async debug(message: string) {
-        this.logger.log('debug', message);
+    debug(message: string, obj: any = null) {
+        if (obj) {
+            this.logger.log('debug', message, {
+                obj
+            })
+        } else {
+            this.logger.log('debug', message);
+        }
     }
 
-    // async error(message: string) {
-    //     this.logger.log('error', message);
-    // }
-
-    async error(message: string, obj: any) {
+    error(message: string, obj: any = null) {
         if (obj) {
             this.logger.log('error', message, {
                 obj
