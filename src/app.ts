@@ -5,6 +5,7 @@ import cors from 'cors';
 import bodyParser from "body-parser";
 
 import routesIndex from './routes/index';
+import routesUser from './routes/user';
 
 const logger = new LoggerService('./app.ts');
 
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use('/', routesIndex);
+app.use('/user/', routesUser);
 
 
 export = app

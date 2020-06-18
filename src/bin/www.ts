@@ -1,7 +1,7 @@
 import env from 'dotenv';
 import app from '../app'
 import LoggerService from '../config/logger'
-import * as database from '../models/index';
+import * as database from '../models';
 
 const logger = new LoggerService('./bin/www');
 database.init();
