@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { Sequelize } from "sequelize";
 
+import {CompanyFactory} from "./companies"
 const logger = new LoggerService("./models/index.ts");
 const basename = path.basename(__filename);
 // const config = require('../config/config.json');
@@ -33,25 +34,25 @@ const sequelize = new Sequelize("teethdb", "thmin", null, {
   },
 });
 
-fs.readdirSync(__dirname)
-  .filter((file: any) => {
-    return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-    );
-  })
-  .forEach((file: any) => {
-    logger.debug(file);
-    // const model = sequelize['import'](path.join(__dirname, file));
-    const model = sequelize.import(path.join(__dirname, file));
-    logger.debug(path.join(__dirname, file));
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+// fs.readdirSync(__dirname)
+//   .filter((file: any) => {
+//     return (
+//       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+//     );
+//   })
+//   .forEach((file: any) => {
+//     logger.debug(file);
+//     // const model = sequelize['import'](path.join(__dirname, file));
+//     const model = sequelize.import(path.join(__dirname, file));
+//     logger.debug(path.join(__dirname, file));
+//     db[model.name] = model;
+//   });
+//
+// Object.keys(db).forEach((modelName) => {
+//   if (db[modelName].associate) {
+//     db[modelName].associate(db);
+//   }
+// });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
@@ -66,5 +67,6 @@ function init() {
       logger.error("Unable to connect to the database:", err);
     });
 }
+ const Company = CompanyFactory(sequelize);
 
-export { db, init, sequelize };
+export { db, init, sequelize, Company };

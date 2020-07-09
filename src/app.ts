@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 
 import routesIndex from './routes/index';
 import routesUser from './routes/user';
+import routesCompany from './routes/company';
 
 const logger = new LoggerService('./app.ts');
 
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use('/', routesIndex);
 app.use('/user/', routesUser);
+app.use('/company/', routesCompany);
 
 
 export = app

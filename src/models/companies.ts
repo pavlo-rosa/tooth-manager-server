@@ -1,5 +1,17 @@
-import { Sequelize, DataTypes } from 'sequelize';
-export default function (sequelize: Sequelize) {
+import { Sequelize, DataTypes, Model, BuildOptions } from "sequelize";
+
+export interface ICompaniesAttributes {
+  id: number;
+  cif: string;
+  name: string;
+  created_at: Date;
+  updated_at: Date;
+}
+export interface ICompaniesModel extends ICompaniesAttributes, Model {}
+export type ICompaniesModelStatic = typeof Model & {
+  new (values?: any, options?: BuildOptions): ICompaniesModel;
+};
+export function CompanyFactory(seq: Sequelize): ICompaniesModelStatic {
   const attributes = {
     id: {
       type: DataTypes.BIGINT,
@@ -8,7 +20,7 @@ export default function (sequelize: Sequelize) {
       comment: null,
       primaryKey: true,
       field: "id",
-      autoIncrement: true
+      autoIncrement: true,
     },
     cif: {
       type: DataTypes.CHAR(128),
@@ -17,7 +29,7 @@ export default function (sequelize: Sequelize) {
       comment: null,
       primaryKey: false,
       field: "cif",
-      autoIncrement: false
+      autoIncrement: false,
     },
     name: {
       type: DataTypes.CHAR(255),
@@ -26,32 +38,34 @@ export default function (sequelize: Sequelize) {
       comment: null,
       primaryKey: false,
       field: "name",
-      autoIncrement: false
+      autoIncrement: false,
     },
     created_at: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.fn('now'),
+      defaultValue: Sequelize.fn("now"),
       comment: null,
       primaryKey: false,
       field: "created_at",
-      autoIncrement: false
+      autoIncrement: false,
     },
     updated_at: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: Sequelize.fn('now'),
+      defaultValue: Sequelize.fn("now"),
       comment: null,
       primaryKey: false,
       field: "updated_at",
-      autoIncrement: false
-    }
+      autoIncrement: false,
+    },
   };
   const options = {
     tableName: "companies",
     comment: "",
-    indexes: []
+    indexes: [],
   };
-  const CompaniesModel = sequelize.define("company", attributes, options);
-  return CompaniesModel;
+
+  return <ICompaniesModelStatic>(
+    seq.define("company", attributes, options)
+  );
 }
