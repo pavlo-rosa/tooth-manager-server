@@ -11,7 +11,7 @@ const logger = new LoggerService('./app.ts');
 
 
 // Create a new express application instance
-let app: express.Application = express();
+const app: express.Application = express();
 
 app.use(
     morgan('tiny', {
