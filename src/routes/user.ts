@@ -1,13 +1,23 @@
-// import { User } from "../models/user";
 import { Request, Response, Router } from "express";
-import { sequelize } from "../models/index";
+import { User } from "../models/users";
+
 const router = Router();
-import { db } from "../models";
 
 router.get("/", async function (req: Request, res: Response) {
-  // Users().findByPk(26)
-  let result = await db.user.findAll();
-  res.json(result);
+  try {
+    res.json(await User.findAll());
+  } catch (e) {
+    res.send(e);
+  }
+});
+
+router.get("/:id", async function (req: Request, res: Response) {
+  try {
+    const pacientId: string = req.params.id;
+    res.json(await User.findByPk(pacientId));
+  } catch (e) {
+    res.send(e);
+  }
 });
 
 export = router;
