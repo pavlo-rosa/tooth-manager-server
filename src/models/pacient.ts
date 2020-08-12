@@ -6,9 +6,9 @@ import {
   UpdatedAt,
 } from "sequelize-typescript";
 @Table({
-  tableName: "users",
+  tableName: "pacients",
 })
-export class User extends Model<User> {
+export class Pacient extends Model<Pacient> {
   @Column
   name: string;
 

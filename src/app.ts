@@ -5,7 +5,7 @@ import cors from 'cors';
 import bodyParser from "body-parser";
 
 // import routesIndex from './routes/index';
-import routesUser from './routes/user';
+import routesUser from './routes/pacient';
 import routesCompany from './routes/company';
 import { Routes } from './routes';
 

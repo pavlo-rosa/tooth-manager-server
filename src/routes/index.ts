@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import routesUser from "./user";
+import routesPacient from "./pacient";
 // const router = Router();
 //
 // router.get("/", function (req: Request, res: Response) {
@@ -11,7 +11,7 @@ export class Routes {
 
   public static init(): Router {
     // Declare main routes.
-    this.router.use("/pacients/", routesUser);
+    this.router.use("/pacient/", routesPacient);
     // this.router.use('/area/language/:language', new AreaLanguageRoutes().router);
     // this.router.use('/tag', new TagRoutes().router);
 
